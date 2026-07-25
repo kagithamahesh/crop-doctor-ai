@@ -4,8 +4,19 @@ from sqlalchemy.orm import Session
 from app.database.dependency import get_db
 from app.services.auth_service import register_user
 from app.services.login_service import login_User
+from app.core.dependencies.auth import get_current_user
+from app.models.user import User
 
 router = APIRouter()
+
+@router.get(
+    "/me",
+    response_model=UserResponse,
+)
+def get_me(
+    current_user: User = Depends(get_current_user),
+):
+  return current_user
 
 @router.post(
     "/login",
