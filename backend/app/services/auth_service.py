@@ -18,6 +18,7 @@ def register_user(db:Session,user:UserRegister) -> User:
         phone=user.phone,
         password_hash=hash_password(user.password),
         language="en",
+        role=user.role,
     )
     db.add(new_user)
     db.commit()

@@ -1,6 +1,13 @@
 from sqlalchemy.orm import mapped_column,Mapped
-from sqlalchemy import String,Boolean
+from sqlalchemy import String,Boolean,Enum
 from app.models.basemodel import BaseModel
+import enum
+
+class UserRole(str, enum.Enum):
+    farmer = "farmer"
+    agronomist = "agronomist"
+    admin = "admin"
+
 class User(BaseModel):
     __tablename__ = "users"
     full_name: Mapped[str] = mapped_column(
@@ -29,4 +36,8 @@ class User(BaseModel):
     is_active: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
+    )
+    role: Mapped[UserRole] = mapped_column(
+    Enum(UserRole),
+    default=UserRole.farmer,
     )

@@ -7,7 +7,7 @@ class UserRegister(BaseModel):
     email: EmailStr
     phone: str | None = None
     password: str
-
+    role: str = "farmer"
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
@@ -19,7 +19,7 @@ class UserResponse(BaseModel):
     email: EmailStr
     phone: str | None = None
     language: str
-
+    role: str
     model_config = {
         "from_attributes": True
     }
