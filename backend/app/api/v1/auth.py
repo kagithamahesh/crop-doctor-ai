@@ -10,29 +10,22 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.services.refresh_service import refresh_access_token
 from app.models.refresh_token import RefreshToken
 from app.core.dependencies.roles import require_roles
+from app.services.user_service import get_all_users
+
 router = APIRouter()
 
 
-# @router.get("/users")
-# def get_users(
-#     current_user=Depends(
-#         require_roles("admin")
-#     ),
-# ):
-
-# @router.post("/upload")
-# def upload_crop(
-#     current_user=Depends(
-#         require_roles("farmer")
-#     ),
-# ):
-
-# @router.post("/review")
-# def review_crop(
-#     current_user=Depends(
-#         require_roles("agronomist")
-#     ),
-# ):
+@router.get(
+    "/users",
+    response_model=list[UserResponse],
+)
+def users(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(
+        require_roles("admin")
+    ),
+):
+    return get_all_users(db)
 
 @router.post("/logout")
 def logout(

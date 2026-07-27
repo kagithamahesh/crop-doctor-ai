@@ -3,12 +3,23 @@ from fastapi import FastAPI
 from app.api.v1.health import router as health_router
 from app.core.config import settings
 from app.api.v1.auth import router as auth_router
-
+from app.api.v1.crop import router as crop_router
+from app.api.v1.review import router as review_router
 
 
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0"
+)
+app.include_router(
+    review_router,
+    prefix="/api/v1/reviews",
+    tags=["Review"],
+)
+app.include_router(
+    crop_router,
+    prefix="/api/v1/crops",
+    tags=["Crop"],
 )
 
 app.include_router(
