@@ -1,13 +1,53 @@
 from fastapi import APIRouter,Depends, HTTPException
-from app.schemas.user import UserLogin, UserResponse,UserRegister,Token
+from app.schemas.user import UserLogin, UserResponse,UserRegister,Token,RefreshTokenRequest
 from sqlalchemy.orm import Session
 from app.database.dependency import get_db
 from app.services.auth_service import register_user
 from app.services.login_service import login_User
 from app.core.dependencies.auth import get_current_user
 from app.models.user import User
-
+from fastapi.security import OAuth2PasswordRequestForm
+from app.services.refresh_service import refresh_access_token
+from app.models.refresh_token import RefreshToken
 router = APIRouter()
+
+@router.post("/logout")
+def logout(
+    request: RefreshTokenRequest,
+    db: Session = Depends(get_db),
+):
+    token = (
+    db.query(RefreshToken)
+    .filter(
+        RefreshToken.token == request.refresh_token
+    )
+    .first()
+)
+
+    if token:
+        token.revoked = True
+        db.commit()
+
+    return {
+        "message": "Logged out successfully"
+    }
+
+
+    
+@router.post(
+    "/refresh",
+    response_model=Token,
+)
+
+def refresh(
+    request: RefreshTokenRequest,
+    db: Session = Depends(get_db),
+):
+    return refresh_access_token(
+        db,
+        request.refresh_token,
+    )
+
 
 @router.get(
     "/me",
@@ -23,9 +63,17 @@ def get_me(
     response_model=Token,
 )
 def login(
-    user:UserLogin ,
+    # form_data: OAuth2PasswordRequestForm = Depends(),
+    # db: Session = Depends(get_db),
+    user: UserLogin,
     db: Session = Depends(get_db),
 ):
+
+    user = UserLogin(
+        email=user.email,
+        password=user.password,
+    )
+
     try:
         return login_User(db, user)
 

@@ -29,3 +29,19 @@ def verify_token(token: str):
 
     except JWTError:
         return None
+
+def create_refersh_token(data:dict):
+    expire = datetime.now(timezone.utc) + timedelta(days=7)
+    payload = data.copy()
+
+    payload.update(
+        {
+            "exp": expire,
+            "type": "refresh",
+        }
+    )
+    return jwt.encode(
+        payload,
+        settings.SECRET_KEY,
+        algorithm=settings.ALGORITHM,
+    )

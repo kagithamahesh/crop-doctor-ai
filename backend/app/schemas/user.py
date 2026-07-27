@@ -23,6 +23,13 @@ class UserResponse(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token :str
+
 class Token(BaseModel):
     access_token: str
-    token_type: str 
+    refresh_token: str
+    token_type:str
