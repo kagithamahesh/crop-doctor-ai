@@ -33,3 +33,8 @@ class Farm(BaseModel):
         "User",
         back_populates="farms",
     )
+    crops: Mapped[list["Crop"]] = relationship(
+    "Crop",
+    back_populates="farm",
+    cascade="all, delete-orphan",
+    )
