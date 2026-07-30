@@ -13,7 +13,12 @@ class FarmResponse(BaseModel):
     name: str
     location: str
     area: float
-
+    owner_id: UUID
     model_config = {
         "from_attributes": True
     }
+
+class FarmUpdate(BaseModel):
+    name: str
+    location: str
+    area: float
