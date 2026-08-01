@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.models.corp import Crop
 from app.models.farm import Farm
 from app.models.user import User
-from app.schemas.crop import CropCreate
+from app.schemas.crop import CropCreate, CropUpdate
 
 def create_crop(
     db: Session,

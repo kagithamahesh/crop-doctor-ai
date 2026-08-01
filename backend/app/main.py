@@ -6,11 +6,18 @@ from app.api.v1.auth import router as auth_router
 from app.api.v1.crop import router as crop_router
 from app.api.v1.review import router as review_router
 from app.api.v1.farm import router as farm_router
+from app.api.v1.detection import router as detection_router
 
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0"
 )
+app.include_router(
+    detection_router,
+    prefix="/api/v1/detection",
+    tags=["Disease Detection"],
+)
+
 app.include_router(
     farm_router,
     prefix="/api/v1/farms",
