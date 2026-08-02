@@ -79,17 +79,17 @@ def get_me(
     response_model=Token,
 )
 def login(
-    # form_data: OAuth2PasswordRequestForm = Depends(),
-    # db: Session = Depends(get_db),
-    user: UserLogin,
-    db: Session = Depends(get_db),
+     form_data: OAuth2PasswordRequestForm = Depends(),
+     db: Session = Depends(get_db),
+    #user: UserLogin,
+    #db: Session = Depends(get_db),
 ):
 
     user = UserLogin(
-        #  email=form_data.username,
-        # password=form_data.password,
-        email=user.email,
-        password=user.password,
+         email=form_data.username,
+         password=form_data.password,
+        #email=user.email,
+        #password=user.password,
     )
 
     try:

@@ -8,11 +8,18 @@ from app.api.v1.review import router as review_router
 from app.api.v1.farm import router as farm_router
 from app.api.v1.detection import router as detection_router
 from app.api.v1.weather import router as weather_router
+from app.api.v1.market import router as market_router
 
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0"
 )
+app.include_router(
+    market_router,
+    prefix="/api/v1/market",
+    tags=["Market"],
+)
+
 app.include_router(
     weather_router,
     prefix="/api/v1/weather",
