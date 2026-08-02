@@ -3,8 +3,8 @@ from openai import AsyncOpenAI
 from app.core.config import settings
 
 client = AsyncOpenAI(
-api_key=settings.GROQ_API_KEY,
-base_url=settings.GROQ_BASE_URL,
+    api_key=settings.GROQ_API_KEY,
+    base_url=settings.GROQ_BASE_URL,
 )
 
 async def ask_llm(prompt: str) -> dict:
