@@ -7,10 +7,16 @@ from app.api.v1.crop import router as crop_router
 from app.api.v1.review import router as review_router
 from app.api.v1.farm import router as farm_router
 from app.api.v1.detection import router as detection_router
+from app.api.v1.weather import router as weather_router
 
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0"
+)
+app.include_router(
+    weather_router,
+    prefix="/api/v1/weather",
+    tags=["Weather"],
 )
 app.include_router(
     detection_router,
