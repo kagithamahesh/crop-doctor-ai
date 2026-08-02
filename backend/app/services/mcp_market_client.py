@@ -1,16 +1,18 @@
-import asyncio
-
 from fastmcp import Client
 
-async def fetch_market_price(crop: str):
+async def get_market_prices(crop: str):
     async with Client(
-        "http://127.0.0.1:8002/mcp"
+    "http://127.0.0.1:8002/mcp"
     ) as client:
         result = await client.call_tool(
-            "get_market_price",
-            {"crop": crop},
+        "get_market_price",
+        {"crop": crop},
         )
+
+    if hasattr(result, "data") and result.data:
         return result.data
-    
-# def get_market_prices(crop: str):
-#     return asyncio.run(fetch_market_price(crop))
+
+    if hasattr(result, "structured_content") and result.structured_content:
+        return result.structured_content
+
+    return {"error": "No market data returned"}

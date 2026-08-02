@@ -9,10 +9,17 @@ from app.api.v1.farm import router as farm_router
 from app.api.v1.detection import router as detection_router
 from app.api.v1.weather import router as weather_router
 from app.api.v1.market import router as market_router
+from app.api.v1.diagnosis import router as diagnosis_router
 
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0"
+)
+
+app.include_router(
+    diagnosis_router,
+    prefix="/api/v1/diagnosis",
+    tags=["AI Diagnosis"],
 )
 app.include_router(
     market_router,
