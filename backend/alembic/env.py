@@ -1,12 +1,12 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import create_engine, engine_from_config, text
 from sqlalchemy import pool
 
 from alembic import context
 from app.core.config import settings
 from app.database.base import Base
-from app.models import user
+import app.models  # noqa: F401 – registers all models with Base.metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -56,6 +56,22 @@ def run_migrations_offline() -> None:
         context.run_migrations()
 
 
+def _ensure_pgvector_extension() -> None:
+    """
+    CREATE EXTENSION cannot run inside a transaction block (psycopg3 /
+    PostgreSQL restriction).  Open a dedicated AUTOCOMMIT connection to
+    install pgvector before Alembic starts its transactional migrations.
+    """
+    engine = create_engine(
+        settings.DATABASE_URL,
+        isolation_level="AUTOCOMMIT",
+        poolclass=pool.NullPool,
+    )
+    with engine.connect() as conn:
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+    engine.dispose()
+
+
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
 
@@ -63,6 +79,8 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    _ensure_pgvector_extension()
+
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
