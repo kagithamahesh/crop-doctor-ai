@@ -1,0 +1,39 @@
+crop: Tomato
+disease: Late Blight
+symptoms: Dark water-soaked lesions on leaves and stems; white mould on leaf undersides in humid conditions; rapid collapse of foliage.
+treatment: Remove and destroy infected plant parts; apply copper-based or mancozeb fungicide every 7–10 days; avoid overhead irrigation.
+
+crop: Tomato
+disease: Early Blight
+symptoms: Brown spots with concentric rings (target-board pattern) on older leaves; yellow halo around spots; defoliation from bottom up.
+treatment: Apply chlorothalonil or mancozeb fungicide; remove infected lower leaves; practice crop rotation.
+
+crop: Tomato
+disease: Septoria Leaf Spot
+symptoms: Small circular spots with dark borders and grey-white centres; spots appear first on lower leaves; heavy spotting causes leaf drop.
+treatment: Apply fungicide at first sign; remove infected leaves; avoid wetting foliage; rotate crops.
+
+crop: Tomato
+disease: Fusarium Wilt
+symptoms: Yellowing and wilting of lower leaves; brown discolouration inside the stem; plants die progressively.
+treatment: Use resistant varieties; remove and destroy infected plants; practice long crop rotations; avoid over-watering.
+
+crop: Tomato
+disease: Bacterial Speck
+symptoms: Small dark-brown to black spots surrounded by yellow halo on leaves; raised scab-like spots on fruit.
+treatment: Use certified disease-free seed; apply copper-based bactericide; avoid working in field when wet.
+
+crop: Tomato
+disease: Tomato Mosaic Virus
+symptoms: Mosaic pattern of light and dark green on leaves; leaf distortion and stunting; reduced fruit set.
+treatment: No chemical cure; remove infected plants; control aphid vectors; use virus-resistant varieties.
+
+crop: Tomato
+disease: Powdery Mildew
+symptoms: White powdery coating on upper leaf surface; leaves curl upward; premature defoliation.
+treatment: Apply sulphur-based fungicide or potassium bicarbonate; improve air circulation; avoid excess nitrogen.
+
+crop: Tomato
+disease: Blossom End Rot
+symptoms: Dark, sunken, leathery patch at the blossom end of fruit; not caused by a pathogen.
+treatment: Maintain consistent soil moisture; apply calcium foliar spray; avoid excess nitrogen and root damage.

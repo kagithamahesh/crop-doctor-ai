@@ -19,6 +19,16 @@ def ingest_pdf(
             f"PDF not found: {file_path}"
         )
 
+    # Validate PDF magic bytes before handing to pypdf
+    with file_path.open("rb") as _f:
+        header = _f.read(5)
+    if header != b"%PDF-":
+        raise ValueError(
+            f"'{file_path.name}' is not a valid PDF file "
+            f"(header: {header!r}). "
+            "Use ingest_from_text() for plain-text knowledge files."
+        )
+
     reader = PdfReader(file_path)
 
     text = ""
