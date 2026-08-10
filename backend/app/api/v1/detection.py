@@ -1,7 +1,7 @@
 from uuid import UUID
 
-from fastapi import APIRouter,UploadFile,File,Depends,HTTPException
-from sqlalchemy.orm import Session, session
+from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
+from sqlalchemy.orm import Session
 
 from app.database.dependency import get_db
 from app.models.user import User
@@ -9,17 +9,19 @@ from app.core.dependencies.roles import require_roles
 from app.models.corp import Crop
 from app.services.image_service import save_image
 from app.models.disease_detection import DiseaseDetection
+from app.agents.agronomist_graph import agronomist_agent
 
 router = APIRouter()
 
+
 @router.post("/upload")
-def upload_corp_image(
+def upload_crop_image(
     crop_id: UUID,
     image: UploadFile = File(...),
     db: Session = Depends(get_db),
     current_user: User = Depends(require_roles("farmer")),
 ):
-    crop=(
+    crop = (
         db.query(Crop)
         .filter(Crop.id == crop_id)
         .first()
@@ -27,12 +29,14 @@ def upload_corp_image(
     if not crop:
         raise HTTPException(
             status_code=404,
-            detail="Corp not found",
+            detail="Crop not found",
         )
+
     image_path = save_image(image)
+
     detection = DiseaseDetection(
-     crop_id = crop.id,
-     image_path=image_path,   
+        crop_id=crop.id,
+        image_path=image_path,
     )
     db.add(detection)
     db.commit()
