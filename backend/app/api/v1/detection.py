@@ -9,7 +9,7 @@ from app.core.dependencies.roles import require_roles
 from app.models.corp import Crop
 from app.services.image_service import save_image
 from app.models.disease_detection import DiseaseDetection
-from app.agents.agronomist_graph import agronomist_agent
+from app.services.detection_analysis import analyze_detection
 
 router = APIRouter()
 
@@ -47,3 +47,20 @@ def upload_crop_image(
         "detection_id": detection.id,
         "image_path": image_path,
     }
+
+
+@router.post("/analyze/{detection_id}")
+async def analyze(
+    detection_id: str,
+    db: Session = Depends(get_db),
+):
+    try:
+        return await analyze_detection(
+            db=db,
+            detection_id=detection_id,
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=404,
+            detail=str(e),
+        )

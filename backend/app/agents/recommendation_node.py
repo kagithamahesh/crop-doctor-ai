@@ -1,7 +1,9 @@
 from app.services.llm_service import ask_llm
 
+from app.agents.state import DiagnosisState
 
-async def recommendation_node(state: dict):
+
+async def recommendation_node(state: DiagnosisState) -> DiagnosisState:
     prompt = f"""
 You are an expert agricultural agronomist.
 
@@ -28,7 +30,7 @@ Provide:
 7. Follow-up action
 """
 
-    response = ask_llm(prompt)
+    response = await ask_llm(prompt)
 
     state["recommendation"] = response
 

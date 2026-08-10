@@ -1,22 +1,4 @@
-"""
-document_ingestion.py
----------------------
-Populates the `disease_knowledge` table from structured knowledge documents.
 
-Supported input formats
-  - List[dict]  – Python dicts already in memory (used by tests / seeding scripts)
-  - JSON file   – a JSON array of knowledge records (path as str | Path)
-  - Plain-text  – one record per block, separated by a blank line, each block
-                  having the shape:
-                      crop: <name>
-                      disease: <name>
-                      symptoms: <free text>
-                      treatment: <free text>
-
-Each record is embedded with the same sentence-transformer model used by
-vector_search.py (all-MiniLM-L6-v2, 384 dims) and upserted into the DB.
-Duplicate records (same crop + disease name) are skipped by default.
-"""
 
 from __future__ import annotations
 
@@ -27,7 +9,7 @@ from typing import Iterable
 
 from sqlalchemy.orm import Session
 
-from app.models.disease_knowledge import DiseaseKnowledge
+from app.models.knowledge_document import KnowledgeDocument
 from app.services.embedding_service import generate_embedding
 
 logger = logging.getLogger(__name__)
@@ -123,10 +105,9 @@ def ingest_records(
 
         if skip_duplicates:
             exists = (
-                db.query(DiseaseKnowledge)
+                db.query(KnowledgeDocument)
                 .filter(
-                    DiseaseKnowledge.crop_name == crop_name,
-                    DiseaseKnowledge.disease_name == disease_name,
+                    KnowledgeDocument.title == f"{crop_name} - {disease_name}",
                 )
                 .first()
             )
@@ -140,11 +121,10 @@ def ingest_records(
         text_for_embedding = _build_embedding_text(record)
         embedding = generate_embedding(text_for_embedding)
 
-        entry = DiseaseKnowledge(
-            crop_name=crop_name,
-            disease_name=disease_name,
-            symptoms=symptoms,
-            treatment=treatment,
+        entry = KnowledgeDocument(
+            title=f"{crop_name} - {disease_name}",
+            source="text_ingestion",
+            chunk_text=text_for_embedding,
             embedding=embedding,
         )
         db.add(entry)
