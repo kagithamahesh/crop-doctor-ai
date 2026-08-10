@@ -12,4 +12,4 @@ class DiagnosisState(TypedDict):
     market: dict
     knowledge: list
 
-    recommendation: str
+    recommendation: dict

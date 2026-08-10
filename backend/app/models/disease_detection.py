@@ -2,9 +2,9 @@ from uuid import UUID
 
 from sqlalchemy import String, ForeignKey, Float
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from sqlalchemy import Text
 from app.models.basemodel import BaseModel
-
+from sqlalchemy.dialects.postgresql import JSONB
 
 class DiseaseDetection(BaseModel):
     __tablename__ = "disease_detections"
@@ -29,9 +29,9 @@ class DiseaseDetection(BaseModel):
         default=0.0,
     )
 
-    recommendation: Mapped[str] = mapped_column(
-        String(1000),
-        default="",
+    recommendation: Mapped[dict | None] = mapped_column(
+          JSONB,
+        nullable=True,
     )
 
     crop: Mapped["Crop"] = relationship(

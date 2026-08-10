@@ -38,7 +38,7 @@ async def analyze_detection(db: Session, detection_id: str):
 
     detection.disease_name = result.get("disease", detection.disease_name)
     detection.confidence = result.get("confidence", detection.confidence)
-    detection.recommendation = str(result.get("recommendation", ""))
+    detection.recommendation = result.get("recommendation")
 
     db.commit()
     db.refresh(detection)
