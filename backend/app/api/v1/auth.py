@@ -10,29 +10,22 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.services.refresh_service import refresh_access_token
 from app.models.refresh_token import RefreshToken
 from app.core.dependencies.roles import require_roles
+from app.services.user_service import get_all_users
+
 router = APIRouter()
 
 
-# @router.get("/users")
-# def get_users(
-#     current_user=Depends(
-#         require_roles("admin")
-#     ),
-# ):
-
-# @router.post("/upload")
-# def upload_crop(
-#     current_user=Depends(
-#         require_roles("farmer")
-#     ),
-# ):
-
-# @router.post("/review")
-# def review_crop(
-#     current_user=Depends(
-#         require_roles("agronomist")
-#     ),
-# ):
+@router.get(
+    "/users",
+    response_model=list[UserResponse],
+)
+def users(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(
+        require_roles("admin")
+    ),
+):
+    return get_all_users(db)
 
 @router.post("/logout")
 def logout(
@@ -86,15 +79,17 @@ def get_me(
     response_model=Token,
 )
 def login(
-    # form_data: OAuth2PasswordRequestForm = Depends(),
-    # db: Session = Depends(get_db),
-    user: UserLogin,
-    db: Session = Depends(get_db),
+     form_data: OAuth2PasswordRequestForm = Depends(),
+     db: Session = Depends(get_db),
+    #user: UserLogin,
+    #db: Session = Depends(get_db),
 ):
 
     user = UserLogin(
-        email=user.email,
-        password=user.password,
+         email=form_data.username,
+         password=form_data.password,
+        #email=user.email,
+        #password=user.password,
     )
 
     try:

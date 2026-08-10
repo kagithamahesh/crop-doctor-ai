@@ -1,4 +1,4 @@
-from sqlalchemy.orm import mapped_column,Mapped
+from sqlalchemy.orm import mapped_column,Mapped,relationship
 from sqlalchemy import String,Boolean,Enum
 from app.models.basemodel import BaseModel
 import enum
@@ -40,4 +40,9 @@ class User(BaseModel):
     role: Mapped[UserRole] = mapped_column(
     Enum(UserRole),
     default=UserRole.farmer,
+    )
+    farms: Mapped[list["Farm"]] = relationship(
+        "Farm",
+        back_populates="owner",
+        cascade="all, delete-orphan",
     )
