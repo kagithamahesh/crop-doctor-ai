@@ -6,11 +6,14 @@ from app.agents.supervisor_node import supervisor_node
 from app.agents.parallel_data_node import parallel_data_node
 from app.agents.recommendation_node import recommendation_node
 from app.agents.human_review_node import human_review_node
+from app.agents.image_quality_node import image_quality_node
+from app.agents.severity_node import severity_node
 
 
 def build_graph():
     graph = StateGraph(DiagnosisState)
-
+    graph.add_node("image_quality", image_quality_node)
+    graph.add_node("severity", severity_node)
     graph.add_node("image_analysis", image_analysis_node)
     graph.add_node("supervisor", supervisor_node)
     graph.add_node("parallel_data", parallel_data_node)
