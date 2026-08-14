@@ -1,0 +1,14 @@
+crop: Tomato
+disease: Late Blight
+symptoms: Dark water-soaked lesions on leaves and stems. White fungal growth under humid conditions.
+treatment: Remove infected leaves. Apply Mancozeb or Chlorothalonil fungicide. Improve field drainage.
+
+crop: Tomato
+disease: Early Blight
+symptoms: Brown concentric ring spots on lower leaves.
+treatment: Spray copper fungicide or Mancozeb. Remove infected plant debris.
+
+crop: Tomato
+disease: Leaf Mold
+symptoms: Yellow spots on upper leaf surface and olive-green mold underneath.
+treatment: Improve ventilation and apply appropriate fungicide.

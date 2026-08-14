@@ -1,38 +1,35 @@
 import json
-from openai import AsyncOpenAI
+
+from openai import OpenAI
+
 from app.core.config import settings
 
-client = AsyncOpenAI(
+client = OpenAI(
     api_key=settings.GROQ_API_KEY,
     base_url=settings.GROQ_BASE_URL,
 )
 
-async def ask_llm(prompt: str) -> dict:
-    response = await client.chat.completions.create(
-    model="llama-3.3-70b-versatile",
-    messages=[
-    {
-    "role": "system",
-    "content": (
-    "You are a senior agricultural agronomist. "
-    "Always return valid JSON only."
-    ),
-    },
-    {
-    "role": "user",
-    "content": prompt,
-    },
-    ],
-    temperature=0.2,
-    response_format={"type": "json_object"},
+
+def generate_recommendation(prompt: str) -> dict:
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are an expert agricultural disease specialist. "
+                    "Always use the provided knowledge base as the primary source. "
+                    "Give practical farmer-friendly recommendations. "
+                    "Respond ONLY with a valid JSON object."
+                ),
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
+        temperature=0.2,
+        response_format={"type": "json_object"},
     )
 
-    content = response.choices[0].message.content
-
-    try:
-        return json.loads(content)
-    except json.JSONDecodeError:
-        return {
-            "error": "Invalid JSON from LLM",
-            "raw_response": content,
-        }
+    return json.loads(response.choices[0].message.content or "{}")

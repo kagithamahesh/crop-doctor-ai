@@ -1,9 +1,9 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-
-from app.models.disease_knowledge import DiseaseKnowledge
+from app.models.knowledge_document import KnowledgeDocument
 from app.services.embedding_service import generate_embedding
+
 
 def search_similar(
     db: Session,
@@ -13,9 +13,9 @@ def search_similar(
     query_embedding = generate_embedding(query)
 
     stmt = (
-        select(DiseaseKnowledge)
+        select(KnowledgeDocument)
         .order_by(
-            DiseaseKnowledge.embedding.cosine_distance(
+            KnowledgeDocument.embedding.cosine_distance(
                 query_embedding
             )
         )

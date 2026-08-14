@@ -1,23 +1,30 @@
 from sqlalchemy import String, Text
 from sqlalchemy.orm import Mapped, mapped_column
+
 from pgvector.sqlalchemy import Vector
 
 from app.models.basemodel import BaseModel
 
-class KnowledgeDocument(BaseModel):
-    __tablename__ = "knowledge_documents"
 
-    title: Mapped[str] = mapped_column(
+class DiseaseKnowledge(BaseModel):
+    __tablename__ = "disease_knowledge"
+
+    crop_name: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+    )
+
+    disease_name: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
     )
 
-    source: Mapped[str] = mapped_column(
-        String(255),
+    symptoms: Mapped[str] = mapped_column(
+        Text,
         nullable=False,
     )
 
-    chunk_text: Mapped[str] = mapped_column(
+    treatment: Mapped[str] = mapped_column(
         Text,
         nullable=False,
     )

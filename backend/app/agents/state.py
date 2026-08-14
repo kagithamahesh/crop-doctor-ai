@@ -1,18 +1,16 @@
 from typing import TypedDict
 
 
-class DiagnosisState(TypedDict, total=False):
-    image_path: str
+class DiagnosisState(TypedDict):
     crop: str
     disease: str
     confidence: float
     location: str
+    disease: str
 
     weather: dict
     market: dict
     knowledge: list
     recommendation: dict
 
-    route: str
-    needs_human_review: bool
-    additional_context_required: bool
+    recommendation: str
