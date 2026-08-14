@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import String, ForeignKey, Float
+from sqlalchemy import String, ForeignKey, Float,Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.basemodel import BaseModel
@@ -29,11 +29,8 @@ class DiseaseDetection(BaseModel):
         default=0.0,
     )
 
-    recommendation: Mapped[str] = mapped_column(
-        String(1000),
-        default="",
-    )
-
+    recommendation = mapped_column(Text, nullable=True)
+    location = mapped_column(String(255), nullable=True)
     crop: Mapped["Crop"] = relationship(
         "Crop",
     )

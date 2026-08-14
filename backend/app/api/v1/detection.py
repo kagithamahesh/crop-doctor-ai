@@ -32,7 +32,8 @@ def upload_corp_image(
     image_path = save_image(image)
     detection = DiseaseDetection(
      crop_id = crop.id,
-     image_path=image_path,   
+     image_path=image_path,
+     location=current_user.farm_location,  
     )
     db.add(detection)
     db.commit()
